@@ -1,0 +1,71 @@
+#TMSH-VERSION: 16.1.0
+
+ltm node /Common/172.16.20.1 {
+    address 172.16.20.1
+}
+ltm node /Common/172.16.20.2 {
+    address 172.16.20.2
+}
+ltm node /Common/172.16.20.3 {
+    address 172.16.20.3
+}
+ltm pool /Common/http_pool {
+    members {
+        /Common/172.16.20.1:80 {
+            address 172.16.20.1
+        }
+        /Common/172.16.20.2:80 {
+            address 172.16.20.2
+        }
+        /Common/172.16.20.3:80 {
+            address 172.16.20.3
+        }
+    }
+}
+ltm pool /Common/https_pool {
+    members {
+        /Common/172.16.20.1:443 {
+            address 172.16.20.1
+        }
+        /Common/172.16.20.2:443 {
+            address 172.16.20.2
+        }
+        /Common/172.16.20.3:443 {
+            address 172.16.20.3
+        }
+    }
+}
+ltm virtual /Common/http_vs {
+    creation-time 2020-01-02:12:36:04
+    destination /Common/10.10.1.100:80
+    ip-protocol tcp
+    last-modified-time 2020-01-02:12:36:04
+    mask 255.255.255.255
+    pool /Common/http_pool
+    profiles {
+        /Common/tcp { }
+    }
+    source 0.0.0.0/0
+    translate-address enabled
+    translate-port enabled
+}
+ltm virtual /Common/https_vs {
+    creation-time 2020-01-03:08:07:34
+    destination /Common/10.10.1.100:443
+    ip-protocol tcp
+    last-modified-time 2020-01-03:08:07:34
+    mask 255.255.255.255
+    pool /Common/https_pool
+    profiles {
+        /Common/tcp { }
+    }
+    source 0.0.0.0/0
+    translate-address enabled
+    translate-port enabled
+}
+ltm virtual-address /Common/10.10.1.100 {
+    address 10.10.1.100
+    arp enabled
+    mask 255.255.255.255
+    traffic-group /Common/traffic-group-1
+}
