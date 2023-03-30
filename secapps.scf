@@ -33,7 +33,6 @@ ltm virtual /Common/http_vs {
         /Common/tcp { }
     }
     source 0.0.0.0/0
-    }
     translate-address enabled
     translate-port enabled
 }
