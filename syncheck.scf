@@ -33,6 +33,9 @@ ltm virtual /Common/http_vs {
         /Common/tcp { }
     }
     source 0.0.0.0/0
+    source-address-translation {
+        type automap
+    }
     translate-address enabled
     translate-port enabled
 }
